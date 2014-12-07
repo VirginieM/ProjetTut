@@ -6,7 +6,7 @@
 		<meta charset="utf-8" />
 	</head>
 	
-	<body>a
+	<body>
 	
 <!-- Affichage des choix de repas -->
 		
@@ -228,7 +228,14 @@
 					
 // Afficher le résumé de la commande 
 					
-					echo '<b>Recapitulatif :</b></br>'.$n_repas.'</br>'.$n_ingredients.'</br>'.$n_sauces.'</br>'.$n_boissons.'</br>'.$n_desserts.'</br>'.'prix: '.$prix.'€</br>';
+					echo '<b>Recapitulatif :</b></br>'.$n_repas.'</br>';
+					if($n_ingredients!=0){
+					echo $n_ingredients.'</br>';
+					}
+					if($n_sauces!=0){
+					echo $n_sauces.'</br>';
+					}
+					echo $n_boissons.'</br>'.$n_desserts.'</br>'.'prix: '.$prix.'€</br>';
 				?>
 				<INPUT TYPE="submit" NAME="confirmer" value='Confirmer'>
 				<?php
@@ -248,16 +255,45 @@
 						$sauces=$_POST['c_sauces'];
 						$boissons=$_POST['c_boissons'];
 						$desserts=$_POST['c_desserts'];
-//Recherche de l'ID pour la commande
-						include("params.php");
+//Recherche des ID pour la commande
+						    include("params.php");
+							$reponse=$bdd->query("SELECT * FROM commandes WHERE id= (SELECT MAX(id) FROM commandes)");
+							while ($donnees = $reponse->fetch()){
+								$idCommande=$donnees['id']+1;
+								$numero=$donnees['numero']+1;
+							}
+							$reponse=$bdd->query("SELECT * FROM commandesdetails WHERE id= (SELECT MAX(id) FROM commandes)");
+							while ($donnees = $reponse->fetch()){
+								$id=$donnees['id'];
+							}
+//Recherche d'un serveur avec le moin de commande
+							$reponse=$bdd->query("SELECT id FROM comptes WHERE serving=1");
+							while ($donnees = $reponse->fetch()){
+								$idServ=$donnees['id'];
+								$cherche = $bdd->query("SELECT COUNT(idServeur) AS nombre FROM commandes WHERE idServeur='$idServ'");
+								while ($donnees2 = $cherche->fetch()){
+									$nombre=$donnees2['nombre'];
+									if ($sav_n != null){
+										if($sav_n>$nombre){
+											$sav_n=$nombre;
+											$Serveur=$idServ;
+										}
+									}
+									else {
+										$sav_n=$nombre;
+										$Serveur=$idServ;
+									}
+								}
+							}
+							
+							echo $Serveur;	
 						
 						
 						
 						
 						
-						
-						$bdd->exec("INSERT INTO commandesdetails VALUES ('3','3','$repas','$ingredients','$sauces','$boissons','$desserts','0')");
-						$bdd->exec("INSERT INTO commandes VALUES ('3','1','0','0','0','175','0','0','1','0','0','0','0')");
+						$bdd->exec("INSERT INTO commandesdetails VALUES ('$id',' $idCommande','$repas','$ingredients','$sauces','$boissons','$desserts','0')");
+						$bdd->exec("INSERT INTO commandes VALUES ('$idCommande','$numero','0','0','0','$Serveur','0','0','1','0','0','0','0')");
 					}
 				?>
 				
