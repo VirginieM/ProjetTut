@@ -249,14 +249,29 @@
 				<INPUT TYPE="hidden" name="c_desserts" value="<?php echo $desserts ?>">
 				<?php
 					if (isset($_POST['confirmer'])){
+						include("params.php");
 						$repas=$_POST['c_repas'];
 						$ingredients=$_POST['c_ingredients'];
 						$ingredients=$_POST['c_ingredients'];
 						$sauces=$_POST['c_sauces'];
 						$boissons=$_POST['c_boissons'];
 						$desserts=$_POST['c_desserts'];
+						
+												
+//Teste si la table est vide (si oui creer une fausse commande pour eviter le probleme de la 1ere commande						
+					
+						$reponse=$bdd->query("SELECT COUNT(*) as nb FROM commandes");
+						while ($donnees = $reponse->fetch()){
+							$nb=$donnees['nb'];
+							echo $nb;
+							if($nb==0){
+								$bdd->exec("INSERT INTO commandesdetails VALUES ('0','0','0','0','0','0','0','0')");
+								$bdd->exec("INSERT INTO commandes VALUES ('0','0','0','0','0','0','0','0','1','1','1','1','0')");
+							}
+						}
+						
+						
 //Recherche des ID pour la commande
-						    include("params.php");
 							$reponse=$bdd->query("SELECT * FROM commandes WHERE id= (SELECT MAX(id) FROM commandes)");
 							while ($donnees = $reponse->fetch()){
 								$idCommande=$donnees['id']+1;
@@ -284,14 +299,13 @@
 										$Serveur=$idServ;
 									}
 								}
-							}
-							
-							echo $Serveur;	
+							}	
+						
+
 						
 						
 						
-						
-						
+//Insertion dans la base de donnée	
 						$bdd->exec("INSERT INTO commandesdetails VALUES ('$id',' $idCommande','$repas','$ingredients','$sauces','$boissons','$desserts','0')");
 						$bdd->exec("INSERT INTO commandes VALUES ('$idCommande','$numero','0','0','0','$Serveur','0','0','1','0','0','0','0')");
 					}
