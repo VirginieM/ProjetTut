@@ -9,7 +9,7 @@
 	<body>a
 	
 <!-- Affichage des choix de repas -->
-		
+		dz
 		<form action="commande.php" method="POST">
 			<INPUT TYPE="submit" NAME="simple" value='Repas Simple'>
 			<INPUT TYPE="hidden" name="choix" value="
