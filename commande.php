@@ -263,7 +263,6 @@
 						$reponse=$bdd->query("SELECT COUNT(*) as nb FROM commandes");
 						while ($donnees = $reponse->fetch()){
 							$nb=$donnees['nb'];
-							echo $nb;
 							if($nb==0){
 								$bdd->exec("INSERT INTO commandesdetails VALUES ('0','0','0','0','0','0','0','0')");
 								$bdd->exec("INSERT INTO commandes VALUES ('0','0','0','0','0','0','0','0','1','1','1','1','0')");
@@ -281,11 +280,13 @@
 							while ($donnees = $reponse->fetch()){
 								$id=$donnees['id'];
 							}
-//Recherche d'un serveur avec le moin de commande
+
+							
+//Recherche d'un serveur avec le moins de commande(active)
 							$reponse=$bdd->query("SELECT id FROM comptes WHERE serving=1");
 							while ($donnees = $reponse->fetch()){
 								$idServ=$donnees['id'];
-								$cherche = $bdd->query("SELECT COUNT(idServeur) AS nombre FROM commandes WHERE idServeur='$idServ'");
+								$cherche = $bdd->query("SELECT COUNT(idServeur) AS nombre FROM commandes WHERE idServeur='$idServ' AND effectue=0");
 								while ($donnees2 = $cherche->fetch()){
 									$nombre=$donnees2['nombre'];
 									if ($sav_n != null){
@@ -299,16 +300,14 @@
 										$Serveur=$idServ;
 									}
 								}
-							}	
-						
-
-						
-						
-						
+								}
+								
 //Insertion dans la base de donnée	
-						$bdd->exec("INSERT INTO commandesdetails VALUES ('$id',' $idCommande','$repas','$ingredients','$sauces','$boissons','$desserts','0')");
-						$bdd->exec("INSERT INTO commandes VALUES ('$idCommande','$numero','0','0','0','$Serveur','0','0','1','0','0','0','0')");
+								$bdd->exec("INSERT INTO commandesdetails VALUES ('$id',' $idCommande','$repas','$ingredients','$sauces','$boissons','$desserts','0')");
+								$bdd->exec("INSERT INTO commandes VALUES ('$idCommande','$numero','0','0','0','$Serveur','0','0','1','0','0','0','0')");
+								
 					}
+						
 				?>
 				
 			</div>
