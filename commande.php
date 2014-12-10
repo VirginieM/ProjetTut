@@ -208,12 +208,11 @@
 					}
 					
 //choix desserts
-					$boissons='0';
+					$desserts='0';
 					$n_desserts=$_POST['desserts'];
-					$reponse=$bdd->query("SELECT * FROM boissons WHERE nom='$n_desserts'");
+					$reponse=$bdd->query("SELECT * FROM desserts WHERE nom='$n_desserts'");
 					while ($donnees = $reponse->fetch()){
 						$desserts=$donnees['id'];
-						echo($desserts);
 						$sup_desserts=$donnees['supplement'];
 					}
 					
@@ -236,6 +235,9 @@
 					echo $n_sauces.'</br>';
 					}
 					echo $n_boissons.'</br>'.$n_desserts.'</br>'.'prix: '.$prix.'€</br>';
+					
+					
+					
 				?>
 				<INPUT TYPE="submit" NAME="confirmer" value='Confirmer'>
 				<?php
@@ -256,6 +258,7 @@
 						$sauces=$_POST['c_sauces'];
 						$boissons=$_POST['c_boissons'];
 						$desserts=$_POST['c_desserts'];
+						echo $desserts;
 						
 												
 //Teste si la table est vide (si oui creer une fausse commande pour eviter le probleme de la 1ere commande						
@@ -303,8 +306,8 @@
 								}
 								
 //Insertion dans la base de donnée	
-								$bdd->exec("INSERT INTO commandesdetails VALUES ('$id',' $idCommande','$repas','$ingredients','$sauces','$boissons','$desserts','0')");
-								$bdd->exec("INSERT INTO commandes VALUES ('$idCommande','$numero','0','0','0','$Serveur','0','0','1','0','0','0','0')");
+							$bdd->exec("INSERT INTO commandesdetails VALUES ('$id',' $idCommande','$repas','$ingredients','$sauces','$boissons','$desserts','0')");
+							$bdd->exec("INSERT INTO commandes VALUES ('$idCommande','$numero','0','0','0','$Serveur','0','0','1','0','0','0','0')");
 								
 					}
 						
