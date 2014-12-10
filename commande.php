@@ -11,35 +11,13 @@
 <!-- Affichage des choix de repas -->
 		
 		<form action="commande.php" method="POST">
-			<INPUT TYPE="submit" NAME="simple" value='Repas Simple'>
-			<INPUT TYPE="hidden" name="choix" value="
-			<?php
-				if(isset($_POST['menu'])){
-					echo	$choix=1;
-				}
-				if(isset($_POST['simple'])){
-					echo	$choix=0;
-				}
-				
-			
-			?>"/>
-			<INPUT TYPE="submit" NAME="menu" value='Menu'>
-			
-			
-<!-- Choix d'un menu ou sandwich simple -->
 		
 			<?php
-			
-//Stockage de choix Menu/Simple
 
-				
-//Lors du clic
-				
-				if(isset($_POST['menu']) OR isset($_POST['simple'])){
-				
 			?>
 			<div id="repas">
 				<?php
+					echo "Menu +1€<br/>";
 					include("params.php");
 					$reponse = $bdd->query("SELECT * FROM repas");
 					while ($donnees = $reponse->fetch()){
@@ -48,7 +26,7 @@
 							$prix=$donnees['prix'];
 							$prix=$prix+$choix;
 							echo"<INPUT TYPE='radio' NAME='repas' value='$nom'>";
-							echo $nom." ".$prix."€<br>";
+							echo $nom." ".$prix."€ <br>";
 						}
 					}
 				?>
@@ -92,11 +70,6 @@
 					?>
 				</div>
 				
-<!-- Affichage des dessert/boissons si menu-->
-
-				<?php
-					if(isset($_POST['menu'])){
-				?>
 			
 <!-- Affichage des choix de boisson -->
 
@@ -127,16 +100,10 @@
 								echo $nom."<br>";
 							}
 						}
-					}
 					?>
 				</div>
-				<INPUT TYPE="submit" NAME="valider" value='Valider la commande'>
-			
-<!-- Fin du clic sur Menu/Simple -->
-			
-			<?php
-				}	/*fin condition*/																			
-			?>
+				<INPUT TYPE="submit" NAME="valider" value='Suivant'>
+
 			
 <!-- valider la commande -->
 
@@ -216,31 +183,47 @@
 						$sup_desserts=$donnees['supplement'];
 					}
 					
+//Definition menu
+					$choix=0;
+					$t_choix=null;
+					if($boissons!=0 && $desserts!=0){
+						$p_choix=1;
+						$t_choix="menu";
+					}
+					else {
+						if($boissons!=0){
+							$p_choix=0.5;
+						}
+						else if($desserts!=0){
+							$p_choix=0.8;
+						}
+						
+					}
+					
 // Definition du prix
-					if($_POST["choix"] == 0){
-						$choix=0;
-					}
-					else{
-						$choix=1;
-					}
-					$prix=$p_repas+$sup_ingredients+$sup_sauces+$sup_boissons+$sup_desserts+$choix;
+					$prix=$p_repas+$sup_ingredients+$sup_sauces+$sup_boissons+$sup_desserts+$p_choix;
 					
 // Afficher le résumé de la commande 
 					
 					echo '<b>Recapitulatif :</b></br>'.$n_repas.'</br>';
-					if($n_ingredients!=0){
-					echo $n_ingredients.'</br>';
+					if($n_ingredients!='0'){
+						echo $n_ingredients.'</br>';
 					}
-					if($n_sauces!=0){
-					echo $n_sauces.'</br>';
+					if($n_sauces!='0'){
+						echo $n_sauces.'</br>';
 					}
-					echo $n_boissons.'</br>'.$n_desserts.'</br>'.'prix: '.$prix.'€</br>';
+					if($repas=='0'){
+						echo "erreur";
+					}
+					else{
+						echo $n_boissons.'</br>'.$n_desserts.'</br>'.'prix: '.$prix.'€</br>';
 					
 					
 					
 				?>
-				<INPUT TYPE="submit" NAME="confirmer" value='Confirmer'>
+				<INPUT TYPE="submit" NAME="confirmer" value='Valider la commande'>
 				<?php
+					}
 					}
 				?>
 				
@@ -258,7 +241,6 @@
 						$sauces=$_POST['c_sauces'];
 						$boissons=$_POST['c_boissons'];
 						$desserts=$_POST['c_desserts'];
-						echo $desserts;
 						
 												
 //Teste si la table est vide (si oui creer une fausse commande pour eviter le probleme de la 1ere commande						
@@ -298,16 +280,21 @@
 											$Serveur=$idServ;
 										}
 									}
-									else {
+									else{
 										$sav_n=$nombre;
 										$Serveur=$idServ;
 									}
 								}
-								}
+							}
 								
-//Insertion dans la base de donnée	
-							$bdd->exec("INSERT INTO commandesdetails VALUES ('$id',' $idCommande','$repas','$ingredients','$sauces','$boissons','$desserts','0')");
-							$bdd->exec("INSERT INTO commandes VALUES ('$idCommande','$numero','0','0','0','$Serveur','0','0','1','0','0','0','0')");
+//Insertion dans la base de donnée
+							if($repas!=0){
+								$bdd->exec("INSERT INTO commandesdetails VALUES ('$id',' $idCommande','$repas','$ingredients','$sauces','$boissons','$desserts','0')");
+								$bdd->exec("INSERT INTO commandes VALUES ('$idCommande','$numero','0','0','0','$Serveur','0','0','1','0','0','0','0')");
+							}
+							else{
+								echo "erreur";
+							}
 								
 					}
 						
