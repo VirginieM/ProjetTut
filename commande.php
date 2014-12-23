@@ -9,7 +9,7 @@
 	<body>
 	
 <!-- Affichage des choix de repas -->
-<!-- test git Virtosh -->	
+<!-- test git Virtosh lol -->	
 		<form action="commande.php" method="POST">
 		
 			<?php
