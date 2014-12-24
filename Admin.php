@@ -59,11 +59,6 @@ session_start();
 												Cafet <input type="radio" name="type" value="cafet" checked />
 												Event <input type="radio" name="type" value="event" />
 												Cours <input type="radio" name="type" value="cours" /> 
-												<!--<select name="Color">
-													<option value="Red">Red</option>
-													<option value="Green">Green</option>
-													<option value="Blue">Blue</option>
-												</select> -->
 											</td>
 										</tr>
 										<tr>
@@ -71,12 +66,126 @@ session_start();
 											<td><input type="text" name="texte" size="50" /></td>
 										</tr>
 										<tr>
-											<td>Date de fin de publication :</td>
-											<td><input type="text" name="datefin" size="15" /></td>
+											<td>date de debut de publication :</td>
+											<td>
+												<?php 
+												$anNow=date("Y"); 
+												?>
+												<select name="anneedebut" size="1">
+												<?php
+													for($année=$anNow;$année<=($anNow+2);$année++){
+														echo "<option value=\"$année\">$année</option>";
+													}
+												?>
+												</select>
+												<select name="moisdebut" size="1">
+													<option>Janvier</option>
+													<option>Février</option>
+													<option>Mars</option>
+													<option>Avril</option>
+													<option>Mai</option>
+													<option>Juin</option>
+													<option>Juillet</option>
+													<option>Août</option>
+													<option>Septembre</option>
+													<option>Octobre</option>
+													<option>Novembre</option>
+													<option>Décembre</option>
+												</select>
+												<select name="jourdebut" size="1">
+												<?php
+													for($jour=1;$jour<=31;$jour++){
+														echo "<option value=\"$jour\">$jour</option>";
+													}
+												?>
+													
+											</td> 
+										</tr>
+										<tr>
+											<td>Heure de début de publication :</td>
+											<td>
+												<select name="heuredebut" size="1">
+													<?php
+														for($heure=0;$heure<=23;$heure++){
+															echo "<option value=\"$heure\">$heure</option>";
+														}
+													?>	
+												</select>
+												:
+												<select name="minutedebut" size="1">
+													<?php
+														for($minute=0;$minute<=59;$minute++){
+															if ($minute<=9){
+																echo "<option value=\"0$minute\">0$minute</option>";
+															}
+															else{
+																echo "<option value=\"$minute\">$minute</option>";
+															}
+														}
+													?>	
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>date de fin de publication :</td>
+											<td>
+												<?php 
+												$anNow=date("Y"); 
+												?>
+												<select name="anneefin" size="1">
+												<?php
+													for($année=$anNow;$année<=($anNow+2);$année++){
+														echo "<option value=\"$année\">$année</option>";
+													}
+												?>
+												</select>
+												<select name="moisfin" size="1">
+													<option>Janvier</option>
+													<option>Février</option>
+													<option>Mars</option>
+													<option>Avril</option>
+													<option>Mai</option>
+													<option>Juin</option>
+													<option>Juillet</option>
+													<option>Août</option>
+													<option>Septembre</option>
+													<option>Octobre</option>
+													<option>Novembre</option>
+													<option>Décembre</option>
+												</select>
+												<select name="jourfin" size="1">
+												<?php
+													for($jour=1;$jour<=31;$jour++){
+														echo "<option value=\"$jour\">$jour</option>";
+													}
+												?>
+													
+											</td> 
 										</tr>
 										<tr>
 											<td>Heure de fin de publication :</td>
-											<td><input type="text" name="heurefin" size="15" /></td>
+											<td>
+												<select name="heurefin" size="1">
+													<?php
+														for($heure=0;$heure<=23;$heure++){
+															echo "<option value=\"$heure\">$heure</option>";
+														}
+													?>	
+												</select>
+												:
+												<select name="minutefin" size="1">
+													<?php
+														for($minute=0;$minute<=59;$minute++){
+															if ($minute<=9){
+																echo "<option value=\"0$minute\">0$minute</option>";
+															}
+															else{
+																echo "<option value=\"$minute\">$minute</option>";
+															}
+														}
+													?>	
+												</select>
+											</td>
 										</tr>
 										<tr>
 											<td><input type="submit" value="Publier" /></td>
@@ -91,7 +200,9 @@ session_start();
 										<th>Titre</th> 
 										<th>Type</th> 
 										<th>Texte</th> 
-										<th> Date fin</th>
+										<th>Date debut</th>
+										<th>Heure debut</th>
+										<th>Date fin</th>
 										<th>Heure fin</th>
 									</tr>
 									
@@ -104,16 +215,20 @@ session_start();
 										mysql_close();
 										
 										while($a=mysql_fetch_object($r)){
-										$titre  = $a->TITRE; 
-										$type  = $a->TYPE;
-										$texte  = $a->TEXTE;
-										$datefin  = $a->DATEFIN;
-										$heurefin  = $a->HEUREFIN;
+										$titre = $a->TITRE; 
+										$type = $a->TYPE;
+										$texte = $a->TEXTE;
+										$datedebut = $a->DATEDEBUT;
+										$heuredebut = $a->HEUREDEBUT;
+										$datefin = $a->DATEFIN;
+										$heurefin = $a->HEUREFIN;
 										
 										echo"<tr>
 												<td>$titre</td>
 												<td>$type</td>
 												<td>$texte</td>
+												<td>$datedebut</td>
+												<td>$heuredebut</td>
 												<td>$datefin</td>
 												<td>$heurefin</td>
 											</tr>";
