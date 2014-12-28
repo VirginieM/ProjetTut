@@ -12,7 +12,7 @@ session_start();
 	</head>
 	
 	<body>
-		<div class="menu">
+		<div class="centrage">
 			<form action="connect.php" method="post">
 				<table class="menuform">
 						<tr>

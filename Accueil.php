@@ -12,7 +12,7 @@ session_start();
 	</head>
 	
 	<body>
-		<div class="menu">
+		<div class="centrage">
 		<?php
 			include("menu.php");
 		?>
