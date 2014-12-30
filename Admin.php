@@ -79,26 +79,28 @@ session_start();
 												?>
 												</select>
 												<select name="moisdebut" size="1">
-													<option>Janvier</option>
-													<option>Février</option>
-													<option>Mars</option>
-													<option>Avril</option>
-													<option>Mai</option>
-													<option>Juin</option>
-													<option>Juillet</option>
-													<option>Août</option>
-													<option>Septembre</option>
-													<option>Octobre</option>
-													<option>Novembre</option>
-													<option>Décembre</option>
+													<?php
+														for($mois=1;$mois<=12;$mois++){
+															if ($mois<=9){
+																echo "<option value=\"0$mois\">0$mois</option>";
+															}
+															else{
+																echo "<option value=\"$mois\">$mois</option>";
+															}
+														}
+													?>
 												</select>
 												<select name="jourdebut" size="1">
 												<?php
 													for($jour=1;$jour<=31;$jour++){
-														echo "<option value=\"$jour\">$jour</option>";
+														if ($jour<=9){
+																echo "<option value=\"0$jour\">0$jour</option>";
+															}
+															else{
+																echo "<option value=\"$jour\">$jour</option>";
+															}	
 													}
 												?>
-													
 											</td> 
 										</tr>
 										<tr>
@@ -106,8 +108,13 @@ session_start();
 											<td>
 												<select name="heuredebut" size="1">
 													<?php
-														for($heure=0;$heure<=23;$heure++){
-															echo "<option value=\"$heure\">$heure</option>";
+														for($heureDebut=0;$heureDebut<=23;$heureDebut++){
+															if ($heureDebut<=9){
+																echo "<option value=\"0$heureDebut\">0$heureDebut</option>";
+															}
+															else{
+																echo "<option value=\"$heureDebut\">$heureDebut</option>";
+															}
 														}
 													?>	
 												</select>
@@ -140,26 +147,28 @@ session_start();
 												?>
 												</select>
 												<select name="moisfin" size="1">
-													<option>Janvier</option>
-													<option>Février</option>
-													<option>Mars</option>
-													<option>Avril</option>
-													<option>Mai</option>
-													<option>Juin</option>
-													<option>Juillet</option>
-													<option>Août</option>
-													<option>Septembre</option>
-													<option>Octobre</option>
-													<option>Novembre</option>
-													<option>Décembre</option>
+													<?php
+														for($mois=1;$mois<=12;$mois++){
+															if ($mois<=9){
+																echo "<option value=\"0$mois\">0$mois</option>";
+															}
+															else{
+																echo "<option value=\"$mois\">$mois</option>";
+															}
+														}
+													?>
 												</select>
 												<select name="jourfin" size="1">
 												<?php
 													for($jour=1;$jour<=31;$jour++){
-														echo "<option value=\"$jour\">$jour</option>";
+														if ($jour<=9){
+																echo "<option value=\"0$jour\">0$jour</option>";
+															}
+															else{
+																echo "<option value=\"$jour\">$jour</option>";
+															}	
 													}
-												?>
-													
+												?>		
 											</td> 
 										</tr>
 										<tr>
@@ -167,8 +176,13 @@ session_start();
 											<td>
 												<select name="heurefin" size="1">
 													<?php
-														for($heure=0;$heure<=23;$heure++){
-															echo "<option value=\"$heure\">$heure</option>";
+														for($heureFin=0;$heureFin<=23;$heureFin++){
+															if ($heureFin<=9){
+																echo "<option value=\"0$heureFin\">0$heureFin</option>";
+															}
+															else{
+																echo "<option value=\"$heureFin\">$heureFin</option>";
+															}
 														}
 													?>	
 												</select>
@@ -215,6 +229,7 @@ session_start();
 										mysql_close();
 										
 										while($a=mysql_fetch_object($r)){
+										$id=$a->ID;
 										$titre = $a->TITRE; 
 										$type = $a->TYPE;
 										$texte = $a->TEXTE;
@@ -231,6 +246,7 @@ session_start();
 												<td>$heuredebut</td>
 												<td>$datefin</td>
 												<td>$heurefin</td>
+												<td><a href=\"deleteStatut.php?id=$id\">Supprimer</a></td>
 											</tr>";
 										}
 									?>
