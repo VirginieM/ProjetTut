@@ -68,137 +68,25 @@ session_start();
 										<tr>
 											<td>date de debut de publication :</td>
 											<td>
-												<?php 
-												$anNow=date("Y"); 
-												?>
-												<select name="anneedebut" size="1">
-												<?php
-													for($année=$anNow;$année<=($anNow+2);$année++){
-														echo "<option value=\"$année\">$année</option>";
-													}
-												?>
-												</select>
-												<select name="moisdebut" size="1">
-													<?php
-														for($mois=1;$mois<=12;$mois++){
-															if ($mois<=9){
-																echo "<option value=\"0$mois\">0$mois</option>";
-															}
-															else{
-																echo "<option value=\"$mois\">$mois</option>";
-															}
-														}
-													?>
-												</select>
-												<select name="jourdebut" size="1">
-												<?php
-													for($jour=1;$jour<=31;$jour++){
-														if ($jour<=9){
-																echo "<option value=\"0$jour\">0$jour</option>";
-															}
-															else{
-																echo "<option value=\"$jour\">$jour</option>";
-															}	
-													}
-												?>
+												<input type="date" name="dateDebut">
 											</td> 
 										</tr>
 										<tr>
 											<td>Heure de début de publication :</td>
 											<td>
-												<select name="heuredebut" size="1">
-													<?php
-														for($heureDebut=0;$heureDebut<=23;$heureDebut++){
-															if ($heureDebut<=9){
-																echo "<option value=\"0$heureDebut\">0$heureDebut</option>";
-															}
-															else{
-																echo "<option value=\"$heureDebut\">$heureDebut</option>";
-															}
-														}
-													?>	
-												</select>
-												:
-												<select name="minutedebut" size="1">
-													<?php
-														for($minute=0;$minute<=59;$minute++){
-															if ($minute<=9){
-																echo "<option value=\"0$minute\">0$minute</option>";
-															}
-															else{
-																echo "<option value=\"$minute\">$minute</option>";
-															}
-														}
-													?>	
-												</select>
+												<input type="time" name="heureDebut">
 											</td>
 										</tr>
 										<tr>
 											<td>date de fin de publication :</td>
 											<td>
-												<?php 
-												$anNow=date("Y"); 
-												?>
-												<select name="anneefin" size="1">
-												<?php
-													for($année=$anNow;$année<=($anNow+2);$année++){
-														echo "<option value=\"$année\">$année</option>";
-													}
-												?>
-												</select>
-												<select name="moisfin" size="1">
-													<?php
-														for($mois=1;$mois<=12;$mois++){
-															if ($mois<=9){
-																echo "<option value=\"0$mois\">0$mois</option>";
-															}
-															else{
-																echo "<option value=\"$mois\">$mois</option>";
-															}
-														}
-													?>
-												</select>
-												<select name="jourfin" size="1">
-												<?php
-													for($jour=1;$jour<=31;$jour++){
-														if ($jour<=9){
-																echo "<option value=\"0$jour\">0$jour</option>";
-															}
-															else{
-																echo "<option value=\"$jour\">$jour</option>";
-															}	
-													}
-												?>		
+												<input type="date" name="dateFin">
 											</td> 
 										</tr>
 										<tr>
 											<td>Heure de fin de publication :</td>
 											<td>
-												<select name="heurefin" size="1">
-													<?php
-														for($heureFin=0;$heureFin<=23;$heureFin++){
-															if ($heureFin<=9){
-																echo "<option value=\"0$heureFin\">0$heureFin</option>";
-															}
-															else{
-																echo "<option value=\"$heureFin\">$heureFin</option>";
-															}
-														}
-													?>	
-												</select>
-												:
-												<select name="minutefin" size="1">
-													<?php
-														for($minute=0;$minute<=59;$minute++){
-															if ($minute<=9){
-																echo "<option value=\"0$minute\">0$minute</option>";
-															}
-															else{
-																echo "<option value=\"$minute\">$minute</option>";
-															}
-														}
-													?>	
-												</select>
+												<input type="time" name="heureFin">
 											</td>
 										</tr>
 										<tr>
@@ -207,6 +95,11 @@ session_start();
 									</table>
 								</form>
 <!-- Gestion des statuts ------------------------------------------------------------------ -->
+								<br/>
+								<?php
+									$message = $_GET['message'];
+									echo "<p color=\"red\">$message</p>";
+								?>
 								<br/>
 								<h1> Statuts en cours : </h1>
 								<table  class ="admintable"> 
